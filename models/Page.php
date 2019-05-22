@@ -10,8 +10,10 @@ class Model
     global $xtc;
 
     if ($route['page'] == '') {
+      $this->data = array(
+        'site_url' => $xtc->site_url
+      );
       $this->template = "homepage.html.twig";
-      $this->data = array('name' => 'John Doe');
     }
     else { 
       // Set browser header
@@ -19,7 +21,10 @@ class Model
 
       // Determine template and referer
       $this->template = "404.html.twig";
-      $this->data = array('referer' => (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $xtc->get_site_url()));
+      $this->data = array(
+        'referer' => (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $xtc->site_url),
+        'site_url' => $xtc->site_url
+      );
     }
   }
 }

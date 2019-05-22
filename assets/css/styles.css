@@ -6,9 +6,9 @@ footer a:hover {
   color: #444;
   text-decoration: none;
 }
-#products .product .card, #catalog .product .card { margin-bottom: 20px; }
+#categories .product .card, #catalog .product .card { margin-bottom: 20px; }
 #catalog .catalog-listing .card .card-body .card-title { margin-bottom: 0; }
-#products .login-form, #catalog .login-form { margin-top: 15px; }
+#categories .login-form, #catalog .login-form { margin-top: 15px; }
 
 .breadcrumb { 
   background-color: rgba(0,0,0,.03); 

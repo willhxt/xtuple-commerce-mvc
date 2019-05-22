@@ -17,6 +17,8 @@ class Core
   public $loader;
   public $twig;
   public $options;
+
+  // Globals
   public $api_url;
   public $erp_db;
   public $site_domain;
@@ -24,8 +26,10 @@ class Core
   public $cart_enabled;
   public $current_page;
   public $site_url;
+  public $site_folder;
   public $api_call;
-
+  public $products_per_page;
+  
   public function __construct() {
 
     // Globals
@@ -35,8 +39,10 @@ class Core
     $this->ssl_enabled = constant('USE_SSL');
     $this->cart_enabled = constant('USE_CART');
     $this->current_page = basename($_SERVER['PHP_SELF']);
-    $this->site_url = ($this->ssl_enabled == true ? 'https://' : 'http://') . $this->site_domain;
+    $this->site_folder = constant('SITE_FOLDER');
+    $this->site_url = ($this->ssl_enabled == true ? 'https://' : 'http://') . $this->site_domain . (isset($this->site_folder) === true && $this->site_folder !== '' ? '/' . $this->site_folder : '');
     $this->api_call = $this->api_url . '/' . $this->erp_db;
+    $this->products_per_page = constant('PRODUCTS_PER_PAGE');
 
     // Initiate routing object
     $this->router = new Core\Router();
@@ -121,12 +127,21 @@ class Core
     $view->render();
   
   }
+  public function footer($route) {
 
-  public function get_site_url() { 
-    if (defined('SITE_DOMAIN')) { 
-      return (constant('USE_SSL') == true ? 'https://' : 'http://') . constant('SITE_DOMAIN');
-    }
-    else { return 'http://' . $_SERVER['HTTP_HOST']; }
+    // Load required MVC frameworks
+    require_once('models/Footer.php');
+    require_once('views/Footer.php');
+    require_once('controllers/Footer.php');
+
+    // Initiate MVC objects
+    $model = new Model\Footer\Model($route);
+    $controller = new Controller\Footer\Controller($model);
+    $view = new View\Footer\View($controller, $model);
+
+    // Display page
+    $view->render();
+
   }
 }
 

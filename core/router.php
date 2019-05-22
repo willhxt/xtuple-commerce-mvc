@@ -14,7 +14,6 @@ class Router {
   }
 
   public function parse($url, $method) {
-
     $tokens = array();
 
     foreach ($this->routes as $route) {

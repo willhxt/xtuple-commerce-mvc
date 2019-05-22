@@ -1,6 +1,7 @@
 <?php
 // Some basic configuration settings for XTC
-define( 'SITE_DOMAIN', 'xtc-dev.local' );
+define( 'SITE_DOMAIN', 'xtc.local' );
+define( 'SITE_FOLDER', '');
 define( 'PRODUCTS_PER_PAGE', '6' );
 define( 'API_URL', 'https://willapi.xtuplecloud.com');
 define( 'ERP_DATABASE', 'erp_demo');

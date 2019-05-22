@@ -1,25 +1,25 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="http://xtc.local">XTC</a>
+    <a class="navbar-brand" href="{{ site_url }}">XTC</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="http://xtc.local">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item {{ current_page == 'home' ? 'active' : '' }}">
+          <a class="nav-link" href="{{ site_url }}">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown {{ current_page == 'categories' ? 'active' : '' }}">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Products
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/categories/view/all">All Categories</a>
+          <a class="dropdown-item {{ current_page == 'categories' and category == 'all' ? 'active' : '' }}" href="{{ site_url }}/categories/view/all/1">All Categories</a>
           <div class="dropdown-divider"></div>
           {% set counter = 0 %}
           {% for key, value in categories %}
               {% set counter = counter + 1 %}
-            <a class="dropdown-item" href="/categories/view/{{ counter }}">{{ value.description|e }}</a>
+            <a class="dropdown-item {{ current_page == 'categories' and category == counter ? 'active' : '' }}" href="{{ site_url }}/categories/view/{{ counter }}/1">{{ value.description|e }}</a>
           {% endfor %}
         </li>
 
@@ -28,10 +28,16 @@
             Catalog
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="catalog.php">All Catalogs</a>
-          <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ site_url }}/catalogs">All Catalogs</a>
+            <div class="dropdown-divider"></div>
           </div>
         </li>
+
+        {% if cart_enabled == true %}
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> 0 items</a>
+        </li>
+        {% endif %}
 
       </ul>
       <form class="form-inline my-2 my-lg-0">

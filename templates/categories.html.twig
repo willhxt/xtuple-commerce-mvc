@@ -1,0 +1,149 @@
+  <main role="main" class="flex-shrink-0 mt-4" id="categories">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-12">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{ site_url }}">Home</a></li>
+
+              {% if category_label|default is empty %}
+              <li class="breadcrumb-item active" aria-current="page">Products</li>
+              {% else %}
+              <li class="breadcrumb-item" aria-current="page"><a href="{{ site_url }}/categories/view/all/1">Products</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ category_label }}</li>
+              {% endif %}
+            </ol>
+          </nav>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  All Products
+                </div>
+                <ul class="list-group list-group-flush">
+                {% set counter = 0 %}
+                {% for key, value in categories %}
+                  {% set counter = counter + 1 %}
+                  <li class="list-group-item"><a href="{{ site_url }}/categories/view/{{ counter }}/1">{{ value.description }}</a></li>
+                {% endfor %}
+
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {% if cart_enabled == true %}
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card login-form">
+                <form>
+                  <div class="card-header">
+                    Login
+                  </div>
+                  <div class="p-3">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Email address</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Log in</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+
+        <div class="col-md-9">
+
+          <div class="row">
+          {% if products_results is not null and products_empty == false %}
+          {% for key, value in products_results %}
+
+            <div class="col-md-6 col-lg-4 product">
+              <div class="card">
+                <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">{{ value.title }}</h4>
+                  <p class="card-text">{{ value.notes }}</p>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      {% for key2, value2 in value.commerce_price %}
+                        {% set amount = value2.amount / 100 %}
+
+                        <p class="btn btn-danger btn-block">${{ amount|number_format(2) }}</p>
+                      {% endfor %}
+                    </div>
+                    <div class="col-md-12">
+                      <a href="#" class="btn btn-secondary btn-block">Read More</a>
+                    </div>
+
+                    {% if cart_enabled == true %}
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <hr>
+                        </div>
+                        <div class="col-5">
+                          <input class="form-control" type="text" value="1" style="text-align: center;">
+                        </div>
+                        <div class="col-7 text-right">
+                          <a href="#" class="btn btn-success btn-small">Add to cart</a>
+                        </div>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+          </div>
+
+          {% if products_empty == false %}
+          <div class="row">
+            <div class="col-md-12">
+              <nav aria-label="Products navigation">
+                <ul class="pagination">
+
+                  {% if pages > 1 and page != 1 %}
+                  <li class="page-item"><a class="page-link" href="{{ site_url }}/categories/view/{{ category }}/{{ page  - 1 }}">Previous</a></li>
+                  {% endif %}
+
+                  {% for x in range(1, pages) %}
+                  <li class="page-item {{ page == x ? 'active' : '' }}"><a class="page-link" href="{{ site_url }}/categories/view/{{ category }}/{{ x }}">{{ x }}</a></li>
+                  {% endfor %}
+
+                  {% if pages > 1 and page != pages %}
+                  <li class="page-item"><a class="page-link" href="{{ site_url }}/categories/view/{{ category }}/{{ page + 1 }}">Next</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </main>
